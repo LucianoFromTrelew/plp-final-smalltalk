@@ -1,0 +1,48 @@
+\definecolor{comment-green}{rgb}{0,0.5,0}
+\definecolor{bg-light-gray}{HTML}{E9E9E9}
+\definecolor{telegram-blue}{HTML}{148AC5}
+\definecolor{keyword-alizarin}{rgb}{0.82, 0.1, 0.26}
+
+
+% Sacado de
+%https://gist.githubusercontent.com/mattonem/f434605a35716bfabec9/raw/7725cdbdf2424b2c81f91a96324bfdb54efa626f/smalltalkEnv.tex
+\lstdefinelanguage{smalltalk}{
+  keywordstyle=\color{stKeywords}\ttfamily,
+  commentstyle=\color{stComment}\ttfamily,
+  stringstyle=\color{stString}\ttfamily,
+  alsoletter=\#,
+  identifierstyle=\ttfamily, 
+  showstringspaces=false,
+  morekeywords={true,false,self,super,nil},
+  sensitive=true, 
+  morecomment=[s]{"}{"}, 
+  tabsize=2,
+}
+
+\lstdefinestyle{smalltalk}{
+    language=smalltalk,
+    backgroundcolor=\color{bg-light-gray},
+  	keywordstyle=\bfseries\color{keyword-alizarin}\ttfamily,
+    stringstyle=\color{telegram-blue}\ttfamily,
+    commentstyle=\color{comment-green}\itshape\ttfamily,
+    numberstyle=\color{gray}\ttfamily,
+    identifierstyle=\color{black}\ttfamily,
+    rulecolor=\color{gray},
+    showstringspaces=false,
+    escapeinside={\%*}{*)},
+  	morekeywords={TipoCliente,TipoBebida},
+    otherkeywords={::,=,==,not,++},
+    breaklines=true,
+  	title=\lstname,	
+    frame=trbl, 
+    framexleftmargin=25pt,
+    numbers=left,
+    xleftmargin=\parindent,
+    frameround=tttt,
+    % re tirado de los pelos, pero es lo que hay
+    % sacado de:
+    % https://tex.stackexchange.com/questions/24528/having-problems-with-listings-and-utf-8-can-it-be-fixed
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1,
+}

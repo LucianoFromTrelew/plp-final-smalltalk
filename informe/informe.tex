@@ -1,0 +1,57 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% En 'setting.tex' se encuentran las configuraciones del proyecto
+% En 'listings_settings.tex' se encuentran las configuraciones
+% propias de listings, que es el paquete usado para incrustar código
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{settings}
+\input{listings_settings}
+%\input{smalltalk_listings_settings}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% En 'titlepage.tex' se encuentra la página de título
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INDICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\tableofcontents
+\clearpage 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ABSTRACT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{abstract}
+%Your abstract.
+%\end{abstract}
+
+\lstset{style=smalltalk}
+
+
+\begin{lstlisting}
+ girlInBar phoneNumber 
+        jerk say: 'Get lost'
+        jerk throwAt: drink
+        self leave: bar
+        ^ '1-800-GET-LOST'
+\end{lstlisting}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FIN DOCUMENTO, AHORA REFERENCIAS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\printbibliography
+
+\end{document}
+\todo[inline, color=green!40]{This is an inline comment.}
+
+\subsection{}
+\emph{} 
+
+~\\
