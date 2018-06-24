@@ -1,4 +1,4 @@
-# TP Final Haskell
+# TP Final Smalltalk
 
 ## Paradigmas de Programación y Lenguajes - 2018
 
