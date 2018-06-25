@@ -1,0 +1,118 @@
+//Copiar el siguiente texto en el sitio
+//https://sequencediagram.org/#
+//Y te genera todo el DS
+
+
+title DS atacarTanque
+
+participant Sistema
+participant Atacante
+participant Atacado
+participant Misil
+
+Sistema->Atacante: atacarTanque(unTanque)
+activate Atacante
+
+Atacante->Atacante: unMisil := obtenerMisilAleatorio()
+activate Atacante
+space
+deactivate Atacante
+
+Atacante->Atacante: unDanio := calcularDanioTotalPara(unTanque, unMisil)
+activate Atacante
+note left of Atacante#orange: El tanque atacante\ncalcula cuánto daño\nle hará al tanque\natacado con el misil\nque le lanzó
+
+Atacante->Misil: unDanio := calcularDanio(unTanque)
+activate Misil
+space 
+deactivate Misil
+
+Atacante->Atacante: unaPerdidaDanio := calcularPerdidaDanio(unTanque, unMisil)
+activate Atacante
+note left of Atacante#orange: Cálculo de\nla pérdida\nde daño\npor precisión
+
+Atacante->Atacado: unaVelocidad := getVelocidadActual()
+activate Atacado
+space -0.3
+deactivate Atacado
+
+Atacante->Atacante: otraVelocidad := getVelocidadActual()
+activate Atacante
+space -0.3
+deactivate Atacante
+
+Atacante->Misil: unCoeficientePerdida := getCoeficientePerdida()
+activate Misil
+note right of Misil#orange: El coeficiente\nde pérdida\nde daño\npor KM/H
+space -0.3
+deactivate Misil
+
+//FIN calcularPerdidaDanio
+space 
+deactivate Atacante
+
+//FIN calcularDanioTotalPara
+space 
+deactivate Atacante
+
+Atacante->Atacado: inflingirDanio(unDanio)
+activate Atacado
+
+Atacado->Atacado: [unDanio > 0] unLogico := esGolpeFuerte(unDanio)
+activate Atacado
+space -0.3
+deactivate Atacado
+space -3
+
+Atacado->Atacado: [unDanio > 0 and unLogico = V] unaCantTripulantes := getTripulantes()
+activate Atacado
+space -0.3
+deactivate Atacado
+space -3
+
+Atacado->Atacado: [unDanio > 0 and unLogico = V] setTripulantes(unaCantTripulantes - 1)
+activate Atacado
+space -0.3
+deactivate Atacado
+space -3
+
+Atacado->Atacado: [unDanio > 0] unDanioAInflingir := calcularDanioInflingido(unDanio)
+activate Atacado
+space -0.3
+deactivate Atacado
+space -3
+
+Atacado->Atacado: [unDanio > 0] unaCoraza := getCoraza()
+activate Atacado
+space -0.3
+deactivate Atacado
+space -3
+
+Atacado->Atacado: [unDanio > 0] setCoraza(unaCoraza - unDanioAInflingir)
+activate Atacado
+space -0.3
+deactivate Atacado
+space -3
+
+//FIN inflingirDanio
+space 
+deactivate Atacado
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//FIN atacarTanque
+space
+deactivate Atacante
