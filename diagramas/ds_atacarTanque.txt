@@ -20,6 +20,7 @@ deactivate Atacante
 
 Atacante->Atacante: unDanio := calcularDanioTotalPara(unTanque, unMisil)
 activate Atacante
+note left of Atacante#orange: El tanque atacante\ncalcula cuánto daño\nle hará al tanque\natacado con el misil\nque le lanzó
 
 Atacante->Misil: unDanio := calcularDanio(unTanque)
 activate Misil
@@ -28,6 +29,7 @@ deactivate Misil
 
 Atacante->Atacante: unaPerdidaDanio := calcularPerdidaDanio(unTanque, unMisil)
 activate Atacante
+note left of Atacante#orange: Cálculo de\nla pérdida\nde daño\npor precisión
 
 Atacante->Atacado: unaVelocidad := getVelocidadActual()
 activate Atacado
@@ -41,6 +43,7 @@ deactivate Atacante
 
 Atacante->Misil: unCoeficientePerdida := getCoeficientePerdida()
 activate Misil
+note right of Misil#orange: El coeficiente\nde pérdida\nde daño\npor KM/H
 space -0.3
 deactivate Misil
 
@@ -94,7 +97,6 @@ space -3
 //FIN inflingirDanio
 space 
 deactivate Atacado
-
 
 
 
