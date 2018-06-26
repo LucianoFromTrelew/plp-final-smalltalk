@@ -30,14 +30,96 @@
 
 \lstset{style=smalltalk}
 
+\section{Modelado del dominio}
 
-\begin{lstlisting}
- girlInBar phoneNumber 
-        jerk say: 'Get lost'
-        jerk throwAt: drink
-        self leave: bar
-        ^ '1-800-GET-LOST'
-\end{lstlisting}
+El dominio de la aplicación consta de \textbf{unidades}, \textbf{tanques}, y \textbf{misiles}. 
+
+\subsection{Clases}
+
+\subsubsection{Unidad}
+
+Una unidad consta de un nombre y de varios tanques de distinto tipo. Saben devolver y cambiar su nombre en tiempo de ejecución, devolver todos sus tanques, o solamente aquellos que están vivos (un tanque está vivo si tiene munición, tripulantes y coraza). También pueden hacer que todos sus tanques se muevan a una misma velocidad.
+
+Los tanques se pueden atacar entre sí, y para ello las unidades tienen la capacidad de indicar a sus tanques que ataquen a tanques de una unidad dada
+
+\subsubsection{Tanque}
+
+La clase central de la aplicación es el tanque. 
+
+Al igual que la unidad tienen un nombre; como ya se dio a conocer, los tanques tienen tripulantes, coraza, una velocidad de movimiento, y una munición.
+
+Cada tanque sabe cómo atacar a otro tanque (obtienen un misil aleatorio de su arsenal y le infligen el daño correspondiente). Pueden hacer un reconocimiento de su estado, en cuanto a si tienen o no munición, tripulantes, si está en movimiento, si emite calor (un tanque emite calor si se está moviendo o si tiene más de tres tripulantes), si puede disparar (en movimiento o no), o si está vivo siquiera. Un tanque reconoce cuando un impacto de misil es un \emph{golpe fuerte} (valor de daño mayor a 50); en tal caso, muere uno de sus tripulantes.
+
+Existen distintos tipos de tanques, cada uno con distintos valores posibles de munición, coraza, cantidad de tripulantes o velocidad máxima. Ellos son:
+
+\begin{itemize}
+    \item Tanque rápido
+    \item Tanque liviano
+    \item Tanque pesado
+    \item Tanque dron
+    \item Tanque con blindaje electromagnético (\emph{EM})
+\end{itemize}
+
+Al momento de que un tanque ataque a otro, se toman en cuenta las velocidades de movimiento tanto del tanque atacante como la del atacado. Cada uno de los distintos tipos de tanques reacciona diferente frente al impacto de un misil; particularmente el \emph{tanque dron} no tiene perdida de daño por precisión, y el \emph{tanque EM} recibe solamente 80\% del daño causado.
+
+%Cuando un tanque ataca a una unidad, se vale del mensaje que tienen las unidades para devolver uno de sus tanques vivos
+
+\subsubsection{Misil}
+
+La munición que tiene un tanque determina la cantidad de misiles disponibles en su arsenal.
+
+El daño que le hará un misil a un tanque dependerá tanto del tipo de tanque que sea y su estado actual, como del tipo de misil lanzado. 
+
+La \emph{Bazooka} y el \emph{Misil Groso} tienen pérdida de daño por precisión (2 y 3 puntos cada 5 KM/H, respectivamente). Este valor afectará en el cálculo del daño total a inflingir sobre el tanque atacado. 
+
+Los puntos de impacto de una \emph{Bazooka} serán el doble de las \emph{cabezas nucleares} que tenga (a lo sumo 4).  
+
+El \emph{Misil térmico} únicamente impactará contra los tanques que emitan calor, sin tener en cuenta las velocidades de los tanques involucrados en el ataque. Estos misiles tienen la particularidad de que se puede cambiar cuántos puntos de impacto realizan sobre un tanque en tiempo de ejecución.
+
+\subsubsection{Escenario}
+
+Uno de los requisitos de la aplicaión era implementar un funcionalidad para que, dadas dos unidades, se ataquen mutuamente hasta que alguna de las dos quede sin tanques vivos. Para ello se debió considerar un \textbf{Escenario} que tenga todas las unidades presentes en la simulación. Existirá un único escenario que tenga todas las unidades, pudiendo pedírselas o agregarle nuevas.
+
+\subsection{Diseño}
+
+\subsubsection{Diagrama de clases}
+
+Para modelar los requerimientos previamente descriptos, se diseñó el siguiente \emph{diagrama de clases software} 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth, height=\textheight-15pt]{clases.png}
+    \caption{Escenario, Unidad, Tanque, y Misil}
+\end{figure}
+
+\subsubsection{Interacción entre objetos}
+
+El siguiente \emph{diagrama de secuencia de objetos} modela resumidamente cómo es la comunicación entre objetos en tiempo de ejecución al momento enviarle el mensaje 
+
+{\ttfamily atacarTanque: unTanque} a un tanque. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth, height=\textheight-25pt]{ds_atacarTanque.png}
+    \caption{Diagrama de secuencia de {\ttfamily unTanque atacarTanque: otroTanque} (realizado con \autocite{ds})}
+\end{figure}
+
+Nótese que el diagrama anterior no considera comportamientos particulares del tanque ni del misil, solamente ilustra generalmente el intercambio de mensajes entre los objetos que intervienen.
+
+
+
+
+\subsubsection{Patrones implementados}
+
+Un \emph{Patrón de Diseño} es definido en \autocite{gof} como \emph{descripciones de clases y objetos relacionados que están particularizados para resolver un problema de diseño general en un determinado contexto}. También se los clasifica en tres grandes grupos: \textbf{de creación}, \textbf{de comportamiento}, y \textbf{de estructura}.    
+
+El primer patrón implementado en el diseño de las clases se lo clasifica como un patrón comportamiento de clase, y es el patrón \textbf{Template Method} ó \textbf{Plantilla}. Su implementación se puede ver en los mensajes {\ttfamily calcularDanioInflingido} de la clase \emph{Tanque}, y en {\ttfamily calcularDanio} de \emph{Misil}.
+
+Por otro lado, la clase \emph{Escenario} implementa el patrón de creación \textbf{Singleton}, que consiste en tener una clase con una única instancia (se accede a través de un método de clase). El método de clase para acceder al escenario es {\ttfamily getEscenario}
+
+\section{Simulación}
+
+Para correr la simulación, cargar el paquete {\ttfamily TP-Tanque.st} al entorno de \emph{Pharo}, luego abrir el \emph{Workspace} (ambos archivos se pueden encontrar en el directorio \emph{src/}) y ejecutar las sentencias.  
 
 
 
@@ -55,3 +137,11 @@
 \emph{} 
 
 ~\\
+
+\begin{lstlisting}
+ girlInBar phoneNumber 
+        jerk say: 'Get lost'
+        jerk throwAt: drink
+        self leave: bar
+        ^ '1-800-GET-LOST'
+\end{lstlisting}
